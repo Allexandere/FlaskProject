@@ -1,19 +1,20 @@
 from flask import Flask, request, jsonify
 from datetime import datetime
+import sys
 app = Flask(__name__)
+
+def main():
+	try:
+		assert sys.argv[1] == "--port" and int(sys.argv[2]) in range(1,65536)
+		app.run(host='0.0.0.0', port = int(sys.argv[2]))
+	except:
+		print("Incorrect input values")
+		sys.exit()
 
 @app.route('/now')
 def hello_world():
 	prefix = request.args.get('prefix', type=str)
 	return jsonify({prefix : str(datetime.now().strftime("%m/%d/%Y, %H:%M:%S"))})
 
-def getPort():
-	port = -1
-	while port < 0 or port > 65535: 
-		print("Input port in [0:65535]")
-		port = int(input())
-	return str(port)
-
-
 if __name__ == "__main__":
-	app.run(host='0.0.0.0', port = getPort())
+	main()
