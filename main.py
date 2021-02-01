@@ -9,6 +9,8 @@ def main():
 			raise Exception("Incorrect input parameters")
 		if sys.argv[1] != "--port":
 			raise Exception("Port not specified")
+		if not sys.argv[2].isdigit():
+			raise Exception("Port isn't a number")
 		if int(sys.argv[2]) not in range(1,65536):
 			raise Exception("Incorrect port")
 		app.run(host='0.0.0.0', port = int(sys.argv[2]))
