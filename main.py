@@ -5,10 +5,15 @@ app = Flask(__name__)
 
 def main():
 	try:
-		assert sys.argv[1] == "--port" and int(sys.argv[2]) in range(1,65536)
+		if len(sys.argv) - 1 != 2:
+			raise Exception("Incorrect input parameters")
+		if sys.argv[1] != "--port":
+			raise Exception("Port not specified")
+		if int(sys.argv[2]) not in range(1,65536):
+			raise Exception("Incorrect port")
 		app.run(host='0.0.0.0', port = int(sys.argv[2]))
-	except:
-		print("Incorrect input values")
+	except Exception as e:
+		print(e)
 		sys.exit()
 
 @app.route('/now')
